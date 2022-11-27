@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
 <script type="text/javascript" src="../dist/colorin.js"></script>
-
+<script type="text/javascript" src="./debug.js"></script>
 <body>
 
     <div id="map" class="container"></div>
@@ -41,13 +41,7 @@
             [50000, 'orangered']
         ];
         const ci = new colorin.ColorIn(colors);
-        const imgData = ci.getImageData();
-        const canvas = document.createElement('canvas');
-        canvas.width = imgData.width;
-        canvas.height = imgData.height;
-        const ctx = canvas.getContext('2d');
-        ctx.putImageData(imgData, 0, 0);
-        document.body.appendChild(canvas);
+        showColorPanel(ci);
 
 
         const layer = new maptalks.VectorLayer('layer').addTo(map);
