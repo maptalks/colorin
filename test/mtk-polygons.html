@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map - Display a map</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 50%
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script type="text/javascript" src="../dist/colorin.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            center: [114.19891751318755, 22.351176279117993],
+            zoom: 11,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        const colors = [
+            [800, 'lightskyblue'],
+            [20000, 'yellow'],
+            [50000, 'orangered']
+        ];
+        const ci = new colorin.ColorIn(colors);
+        const imgData = ci.getImageData();
+        const canvas = document.createElement('canvas');
+        canvas.width = imgData.width;
+        canvas.height = imgData.height;
+        const ctx = canvas.getContext('2d');
+        ctx.putImageData(imgData, 0, 0);
+        document.body.appendChild(canvas);
+
+
+        const layer = new maptalks.VectorLayer('layer').addTo(map);
+        // layer.addGeometry(points);
+
+        fetch('./HK.geojson').then(res => res.json()).then(geojson => {
+
+            const datas = [
+                { name: '中西区', value: 20057.34 },
+                { name: '湾仔区', value: 15477.48 },
+                { name: '东区', value: 31686.1 },
+                { name: '南区', value: 6992.6 },
+                { name: '油尖旺区', value: 44045.49 },
+                { name: '深水埗区', value: 40689.64 },
+                { name: '九龙城区', value: 37659.78 },
+                { name: '黄大仙区', value: 45180.97 },
+                { name: '观塘区', value: 55204.26 },
+                { name: '葵青区', value: 21900.9 },
+                { name: '荃湾区', value: 4918.26 },
+                { name: '屯门区', value: 5881.84 },
+                { name: '元朗区', value: 4178.01 },
+                { name: '北区', value: 2227.92 },
+                { name: '大埔区', value: 2180.98 },
+                { name: '沙田区', value: 9172.94 },
+                { name: '西贡区', value: 3368 },
+                { name: '离岛区', value: 806.98 }
+            ];
+
+            function getPeopleNum(name) {
+                for (let i = 0, len = datas.length; i < len; i++) {
+                    if (datas[i].name === name) {
+                        return datas[i].value;
+                    }
+                }
+                console.error(`not find ${name}`);
+            }
+            const polygons = maptalks.GeoJSON.toGeometry(geojson);
+            layer.addGeometry(polygons);
+            polygons.forEach(p => {
+                const name = p.getProperties().name;
+                const peopleNum = getPeopleNum(name);
+                const [r, g, b, a] = ci.getColor(peopleNum);
+                const color = `rgba(${r},${g},${b},${a})`;
+                p.setSymbol({
+                    lineWidth: 1,
+                    polygonFill: color
+                });
+            });
+        })
+
+    </script>
+</body>
+
+</html>

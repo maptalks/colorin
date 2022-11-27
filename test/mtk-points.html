@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map - Display a map</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 50%
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script type="text/javascript" src="../dist/colorin.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            center: [-0.113049, 51.498568],
+            zoom: 8,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        const colors = [
+            [0, 'red'],
+            [5, 'green'],
+            [10, 'yellow'],
+            [15, 'black'],
+            [20, 'white'],
+            [25, 'blue']
+        ];
+        const ci = new colorin.ColorIn(colors);
+        const imgData = ci.getImageData();
+        const canvas = document.createElement('canvas');
+        canvas.width = imgData.width;
+        canvas.height = imgData.height;
+        const ctx = canvas.getContext('2d');
+        ctx.putImageData(imgData, 0, 0);
+        document.body.appendChild(canvas);
+
+        function getCoordiantes() {
+            const { x, y } = map.getCenter();
+            const coordinates = [];
+            while (coordinates.length < 50) {
+                const lng = x + Math.random(), lat = y + Math.random();
+                coordinates.push([lng, lat])
+            }
+            return coordinates;
+        }
+
+        const points = getCoordiantes().map(c => {
+            const value = -5 + Math.random() * 50;
+            const [r, g, b, a] = ci.getColor(value);
+            const color = `rgba(${r},${g},${b},${a})`;
+            return new maptalks.Marker(c, {
+                properties: {
+                    value: value
+                },
+                symbol: {
+                    markerWidth: 10,
+                    markerHeight: 10,
+                    markerType: 'ellipse',
+                    markerFill: color
+                }
+            })
+        })
+        const layer = new maptalks.VectorLayer('layer').addTo(map);
+        layer.addGeometry(points);
+
+    </script>
+</body>
+
+</html>
