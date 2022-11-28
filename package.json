@@ -1,6 +1,6 @@
 {
   "name": "colorin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "colors Interpolation",
   "main": "dist/colorin.js",
   "module": "./index.js",
