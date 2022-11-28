@@ -27,6 +27,14 @@ npm i colorin
 # or
 yarn add colorin
 ```
+### Warning
+in nodejs,you need  install @napi-rs/canvas for polyfill canvas
+
+```sh
+npm i @napi-rs/canvas
+# or
+yarn add @napi-rs/canvas
+```
 
 ## API
 
