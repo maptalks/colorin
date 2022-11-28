@@ -21,6 +21,7 @@
   "homepage": "https://github.com/deyihu/colorin#readme",
   "dependencies": {},
   "devDependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "cross-env": "^5.1.4",
     "eslint": "^6.2.2",
     "eslint-config-standard": "^14.1.0",
