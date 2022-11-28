@@ -1,7 +1,12 @@
 let canvas;
+const OPTIONS = {
+    width: 100,
+    height: 10
+};
+
 function getCanvas() {
-    const width = 100, height = 10;
     if (!canvas) {
+        const { width, height } = OPTIONS;
         if (OffscreenCanvas) {
             canvas = new OffscreenCanvas(width, height);
         } else {
@@ -14,7 +19,7 @@ function getCanvas() {
 }
 
 export class ColorIn {
-    constructor(colors) {
+    constructor(colors, options = {}) {
         if (!Array.isArray(colors)) {
             console.error('colors is not array');
             return;
@@ -33,6 +38,7 @@ export class ColorIn {
         this.min = min;
         this.max = max;
         this.valueOffset = this.max - this.min;
+        this.options = Object.assign({}, OPTIONS, options);
         this._initImgData();
     }
 
@@ -42,11 +48,13 @@ export class ColorIn {
 
     _initImgData() {
         const canvas = getCanvas();
+        const { width, height } = this.options;
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-        const colors = this.colors;
-        const valueOffset = this.valueOffset;
+        const { colors, valueOffset } = this;
         for (let i = 0, len = colors.length; i < len; i++) {
             const [stop, color] = colors[i];
             const s = (stop - this.min) / valueOffset;
@@ -61,7 +69,8 @@ export class ColorIn {
         stop = Math.max(this.min, stop);
         stop = Math.min(stop, this.max);
         const s = (stop - this.min) / this.valueOffset;
-        const x = Math.round(s * this.imgData.width);
+        let x = Math.round(s * this.imgData.width);
+        x = Math.min(x, this.imgData.width - 1);
         const idx = x * 4;
         const r = this.imgData.data[idx];
         const g = this.imgData.data[idx + 1];
