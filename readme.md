@@ -1,0 +1,78 @@
+# colorin
+
+colors interpolation  
+![](./colorin.png)
+
+## Examples
+
+[base](https://deyihu.github.io/colorin/test/base.html)  
+[pie](https://deyihu.github.io/colorin/test/pie.html)  
+[maptalks points](https://deyihu.github.io/colorin/test/mtk-points.html)  
+[maptalks polygons](https://deyihu.github.io/colorin/test/mtk-polygons.html)  
+[zoom stops](https://deyihu.github.io/colorin/test/zoomstop.html)  
+[custom imagedata size](https://deyihu.github.io/colorin/test/customsize.html)
+
+## Install
+
+* CDN
+
+```html
+<script src="https://unpkg.com/colorin/dist/colorin.js"></script>
+```
+
+* NPM
+
+```sh
+npm i colorin
+# or
+yarn add colorin
+```
+
+## API
+
+### `ColorIn` class
+
+#### constructor(colors, [options])
+
+  + colors `Color collection`
+
+```js
+import {
+    ColorIn
+} from 'colorin';
+
+const colors = [
+    [0, '#226412'],
+    [2, '#4C931B'],
+    [4, '#80BD3F'],
+    [6, '#B9E287'],
+    [8, '#E7F5D1'],
+    [10, '#F7F7F7'],
+    [13, '#226412'],
+    [16, '#80BD3F'],
+    [18, '#F1B7DB'],
+    [22, '#DF78AF'],
+    [24, '#C6147E'],
+    [26, '#8F0051']
+];
+const ci = new ColorIn(colors);
+const [r, g, b, a] = ci.getColor(11);
+
+//if you use cdn
+const ci = new colorin.ColorIn(colors);
+```
+
+####  method
+
+  + getColor(stop) `get color by stop`
+
+```js
+const [r, g, b, a] = ci.getColor(11);
+```
+
+  + getImageData() `get canvas image data`
+
+```js
+    const imgData = ci.getImageData();
+```
+    
