@@ -2,7 +2,7 @@
 <html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>pie-colorin</title>
+<title>custom imagedata size-colorin</title>
 <style type="text/css">
     html,
     body {
@@ -36,11 +36,12 @@
             [180, 'yellow'],
             [360, 'red']
         ];
-        const ci = new colorin.ColorIn(colors);
+        const ci = new colorin.ColorIn(colors, { width: 400, height: 50 });
 
         const canvas = document.createElement('canvas');
         canvas.width = canvas.height = 256;
         document.body.appendChild(canvas);
+        
         const ctx = canvas.getContext('2d');
         for (let i = 1; i <= 360; i += 10) {
             const startAngle = (i - 10) / 360 * Math.PI * 2;

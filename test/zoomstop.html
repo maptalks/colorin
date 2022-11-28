@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zoom stops -colorin</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 50%
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script src="https://unpkg.com/colorin/dist/colorin.js"></script>
+<script type="text/javascript" src="./debug.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            center: [114.19891751318755, 22.351176279117993],
+            zoom: 11,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        // '#226412': [0, 200],
+        //     '#4C931B': [200, 400],
+        //     '#80BD3F': [400, 650],
+        //     '#B9E287': [650, 880],
+        //     '#E7F5D1': [880, 1100],
+        //     '#F7F7F7': [1100, 1300],
+        //     '#FDE1EF': [1300, 1450],
+        //     '#F1B7DB': [1450, 1600],
+        //     '#DF78AF': [1600, 2000],
+        //     '#C6147E': [2000, 2500],
+        //     '#8F0051': [2500, Infinity]
+
+        const colors = [
+            [0, '#226412'],
+            [2, '#4C931B'],
+            [4, '#80BD3F'],
+            [6, '#B9E287'],
+            [8, '#E7F5D1'],
+            [10, '#F7F7F7'],
+            [13, '#226412'],
+            [16, '#80BD3F'],
+            [18, '#F1B7DB'],
+            [22, '#DF78AF'],
+            [24, '#C6147E'],
+            [26, '#8F0051']
+        ];
+        const ci = new colorin.ColorIn(colors);
+        showColorPanel(ci);
+
+
+        const layer = new maptalks.VectorLayer('layer').addTo(map);
+        // layer.addGeometry(points);
+
+        fetch('./HK.geojson').then(res => res.json()).then(geojson => {
+            const polygons = maptalks.GeoJSON.toGeometry(geojson);
+            layer.addGeometry(polygons);
+            updatePolygonSymbol();
+        })
+
+        function updatePolygonSymbol() {
+            const zoom = map.getZoom();
+            const [r, g, b, a] = ci.getColor(zoom);
+            const color = `rgba(${r},${g},${b},${a})`;
+            layer.getGeometries().forEach(p => {
+                p.updateSymbol({ polygonFill: color })
+            });
+        }
+        map.on('zoomend', updatePolygonSymbol);
+
+    </script>
+</body>
+
+</html>
