@@ -1,6 +1,6 @@
 # colorin
 
-colors interpolation  
+colors interpolate    
 ![](./colorin.png)
 
 ## Examples
