@@ -5,6 +5,16 @@ const OPTIONS = {
 };
 const ISNODE = typeof global === 'object';
 
+let offscreenCanvas = false;
+try {
+    const canvas = new OffscreenCanvas(1, 1);
+    const ctx = canvas.getContext('2d');
+    ctx.fillText('hello', 0, 0);
+    offscreenCanvas = true;
+} catch (err) {
+    offscreenCanvas = false;
+}
+
 function getCanvas() {
     if (!canvas) {
         const { width, height } = OPTIONS;
@@ -12,7 +22,7 @@ function getCanvas() {
             const { createCanvas } = require('@napi-rs/canvas');
             canvas = createCanvas(width, height);
         } else {
-            if (OffscreenCanvas) {
+            if (offscreenCanvas) {
                 canvas = new OffscreenCanvas(width, height);
             } else {
                 canvas = document.createElement('canvas');
