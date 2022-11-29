@@ -1,4 +1,7 @@
-const { ColorIn } = require('./dist/colorin');
+const { ColorIn, registerCanvas } = require('./dist/colorin');
+const { createCanvas } = require('@napi-rs/canvas');
+const canvas = createCanvas(1, 1);
+registerCanvas(canvas);
 const colors = [
     [0, '#FFF7ED'],
     [5, '#FFF7ED'],
