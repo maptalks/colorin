@@ -28,7 +28,7 @@
     <script>
         var map = new maptalks.Map('map', {
             center: [-0.113049, 51.498568],
-            zoom: 8,
+            zoom: 3,
             baseLayer: new maptalks.TileLayer('base', {
                 urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
                 subdomains: ["a", "b", "c", "d"],
@@ -37,45 +37,68 @@
         });
 
         const colors = [
-            [0, '#FFF7ED'],
-            [5, '#FFF7ED'],
-            [10, '#FDD59F'],
-            [15, '#FC8E58'],
-            [20, '#EF6546'],
-            [25, '#D82C19']
+            [0, 'green'],
+            [50, 'yellow'],
+            [360, 'red']
         ];
         const ci = new colorin.ColorIn(colors);
         showColorPanel(ci);
 
-        function getCoordiantes() {
-            const { x, y } = map.getCenter();
-            const coordinates = [];
-            while (coordinates.length < 50) {
-                const lng = x + Math.random(), lat = y + Math.random();
-                coordinates.push([lng, lat])
-            }
-            return coordinates;
-        }
+        // function getCoordiantes() {
+        //     const { x, y } = map.getCenter();
+        //     const coordinates = [];
+        //     while (coordinates.length < 50) {
+        //         const lng = x + Math.random(), lat = y + Math.random();
+        //         coordinates.push([lng, lat])
+        //     }
+        //     return coordinates;
+        // }
 
-        const points = getCoordiantes().map(c => {
-            const value = -5 + Math.random() * 50;
-            const [r, g, b, a] = ci.getColor(value);
-            const color = `rgba(${r},${g},${b},${a})`;
-            return new maptalks.Marker(c, {
-                properties: {
-                    value: value
-                },
-                symbol: {
-                    markerWidth: 10,
-                    markerHeight: 10,
-                    markerType: 'ellipse',
-                    markerFill: color,
-                    markerLineColor: color
-                }
-            })
-        })
+        // const points = getCoordiantes().map(c => {
+        //     const value = -5 + Math.random() * 50;
+        //     const [r, g, b, a] = ci.getColor(value);
+        //     const color = `rgba(${r},${g},${b},${a})`;
+        //     return new maptalks.Marker(c, {
+        //         properties: {
+        //             value: value
+        //         },
+        //         symbol: {
+        //             markerWidth: 10,
+        //             markerHeight: 10,
+        //             markerType: 'ellipse',
+        //             markerFill: color,
+        //             markerLineColor: color
+        //         }
+        //     })
+        // })
         const layer = new maptalks.VectorLayer('layer').addTo(map);
-        layer.addGeometry(points);
+        // layer.addGeometry(points);
+
+        fetch('https://maptalks.org/maptalks.three/demo/data/population.json').then(res => res.json()).then(json => {
+            const points = [];
+            let max = -Infinity;
+            json.forEach(d => {
+                const [x, y, value] = d;
+                max = Math.max(value, max);
+                const [r, g, b, a] = ci.getColor(value);
+                const color = `rgba(${r},${g},${b},${a})`;
+                const point = new maptalks.Marker([x, y], {
+                    properties: {
+                        value: value
+                    },
+                    symbol: {
+                        markerWidth: 2,
+                        markerHeight: 2,
+                        markerType: 'ellipse',
+                        markerFill: color,
+                        markerLineColor: color
+                    }
+                })
+                points.push(point);
+            });
+            layer.addGeometry(points);
+            console.log(max);
+        })
 
     </script>
 </body>
