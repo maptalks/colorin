@@ -3,7 +3,6 @@ const OPTIONS = {
     width: 100,
     height: 10
 };
-const ISNODE = typeof global === 'object';
 
 let offscreenCanvas = false;
 try {
@@ -18,17 +17,12 @@ try {
 function getCanvas() {
     if (!canvas) {
         const { width, height } = OPTIONS;
-        if (ISNODE) {
-            const { createCanvas } = require('@napi-rs/canvas');
-            canvas = createCanvas(width, height);
+        if (offscreenCanvas) {
+            canvas = new OffscreenCanvas(width, height);
         } else {
-            if (offscreenCanvas) {
-                canvas = new OffscreenCanvas(width, height);
-            } else {
-                canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-            }
+            canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
         }
     }
     return canvas;
