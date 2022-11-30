@@ -27,13 +27,27 @@ npm i colorin
 # or
 yarn add colorin
 ```
+
 ### Warning
-in nodejs,you need  install @napi-rs/canvas for polyfill canvas
+
+in nodejs, you need  dynamic registerCanvas,you can use [@napi-rs/canvas](https://github.com/Brooooooklyn/canvas) or [node-canvas](https://github.com/Automattic/node-canvas)
 
 ```sh
 npm i @napi-rs/canvas
 # or
 yarn add @napi-rs/canvas
+```
+
+```js
+const {
+    ColorIn,
+    registerCanvas
+} = require('colorin');
+const {
+    createCanvas
+} = require('@napi-rs/canvas');
+const canvas = createCanvas(1, 1);
+registerCanvas(canvas);
 ```
 
 ## API
@@ -83,4 +97,5 @@ const [r, g, b, a] = ci.getColor(11);
 ```js
     const imgData = ci.getImageData();
 ```
+
     
