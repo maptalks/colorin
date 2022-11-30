@@ -10,7 +10,8 @@ colors interpolate
 [maptalks points](https://deyihu.github.io/colorin/test/mtk-points.html)  
 [maptalks polygons](https://deyihu.github.io/colorin/test/mtk-polygons.html)  
 [zoom stops](https://deyihu.github.io/colorin/test/zoomstop.html)  
-[custom imagedata size](https://deyihu.github.io/colorin/test/customsize.html)
+[custom imagedata size](https://deyihu.github.io/colorin/test/customsize.html)  
+[maptalks funtion-type](https://maptalks.org/examples/en/style/color-interpolate/#style_color-interpolate)
 
 ## Install
 
