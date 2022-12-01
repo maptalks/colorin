@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>maptalks lines--colorin</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 50%
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script src="https://unpkg.com/colorin/dist/colorin.js"></script>
+<script type="text/javascript" src="./debug.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            center: [103.84334041440661, 1.3727166704086642],
+            zoom: 12,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        const colors = [
+            [0, 'green'],
+            [22, 'yellow'],
+            [56, 'red']
+        ];
+        const ci = new colorin.ColorIn(colors);
+        showColorPanel(ci);
+        const layer = new maptalks.VectorLayer('layer').addTo(map);
+
+        // data from https://l7.antv.antgroup.com/examples/line/path#bus_light
+        fetch('./ee07641d-5490-4768-9826-25862e8019e1.json').then(res => res.json()).then(json => {
+            const lines = [];
+            let max = -Infinity;
+            json.forEach(d => {
+                const { level, path } = d;
+                max = Math.max(level, max);
+                const [r, g, b, a] = ci.getColor(level);
+                const color = `rgba(${r},${g},${b},${a})`;
+                const line = new maptalks.LineString(path, {
+                    properties: {
+                        level: level
+                    },
+                    symbol: {
+                        lineColor: color
+                    }
+                })
+                lines.push(line);
+            });
+            layer.addGeometry(lines);
+            console.log(max);
+        })
+
+    </script>
+</body>
+
+</html>
