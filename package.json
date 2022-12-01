@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deyihu/colorin.git"
+    "url": "git+https://github.com/maptalks/colorin.git"
   },
   "author": "deyihu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deyihu/colorin/issues"
+    "url": "https://github.com/maptalks/colorin/issues"
   },
-  "homepage": "https://github.com/deyihu/colorin#readme",
+  "homepage": "https://github.com/maptalks/colorin#readme",
   "dependencies": {},
   "devDependencies": {
     "@napi-rs/canvas": "^0.1.30",
