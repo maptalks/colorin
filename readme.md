@@ -8,6 +8,7 @@ colors interpolate
 [base](https://deyihu.github.io/colorin/test/base.html)  
 [pie](https://deyihu.github.io/colorin/test/pie.html)  
 [maptalks points](https://deyihu.github.io/colorin/test/mtk-points.html)  
+[maptalks lines](https://deyihu.github.io/colorin/test/mtk-lines.html)  
 [maptalks polygons](https://deyihu.github.io/colorin/test/mtk-polygons.html)  
 [zoom stops](https://deyihu.github.io/colorin/test/zoomstop.html)  
 [custom imagedata size](https://deyihu.github.io/colorin/test/customsize.html)  
