@@ -1,7 +1,12 @@
 # colorin
 
-colors interpolate    
+colors interpolate  
+
 ![](./colorin.png)
+
+## gallery
+![](./images/terrain.png)
+![](./images/terrain1.png)
 
 ## Examples
 
@@ -12,7 +17,10 @@ colors interpolate
 [maptalks polygons](https://maptalks.github.io/colorin/test/mtk-polygons.html)  
 [zoom stops](https://maptalks.github.io/colorin/test/zoomstop.html)  
 [custom imagedata size](https://maptalks.github.io/colorin/test/customsize.html)  
-[maptalks funtion-type](https://maptalks.org/examples/en/style/color-interpolate/#style_color-interpolate)
+[covid-19 usa](https://maptalks.github.io/colorin/test/covid-19.html)  
+![](./images/covid-19.png)
+- maptalks.js already has this feature built-in
+[maptalks funtion-type demo](https://maptalks.org/examples/en/style/color-interpolate/#style_color-interpolate)
 
 ## Install
 

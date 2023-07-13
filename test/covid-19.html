@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>covid-19</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 80%
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@maptalks/gl/dist/maptalksgl.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@maptalks/vt/dist/maptalks.vt.js"></script>
+<script src="https://unpkg.com/colorin/dist/colorin.js"></script>
+<script type="text/javascript" src="./debug.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            center: [-94.67057435, 41.55551825],
+            zoom: 5,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        const layer = new maptalks.PolygonLayer('layer').addTo(map);
+
+        const colors = [
+            [42, "#fff7f3"],
+            [71, "#fde0dd"],
+            [108, "#fcc5c0"],
+            [157, "#fa9fb5"],
+            [220, "#f768a1"],
+            [323, "#dd3497"],
+            [479, "#ae017e"],
+            [836, "#7a0177"],
+            [14614, "#49006a"]
+        ];
+        const ci = new colorin.ColorIn(colors);
+        //https://observablehq.com/@onoratod/untitled/2
+        fetch('./us_counties.json').then(res => res.json()).then(geojson => {
+            const polygons = maptalks.GeoJSON.toGeometry(geojson);
+            layer.addGeometry(polygons);
+            polygons.forEach(p => {
+                const num = p.getProperties().cases || 1;
+                const [r, g, b, a] = ci.getColor(num);
+                const color = `rgb(${r},${g},${b})`;
+                p.setSymbol({
+                    lineWidth: 0.5,
+                    lineColor: '#000',
+                    polygonFill: color
+                });
+            });
+        })
+
+    </script>
+</body>
+
+</html>
