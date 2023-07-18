@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>base-colorin</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+        /* display: flex; */
+    }
+
+    .container {
+        width: 100%;
+        height: 50%;
+        display: flex;
+        background-color: black;
+    }
+
+    .colorpanel {
+        width: 30px;
+        height: 20px;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+</style>
+<script src="https://unpkg.com/colorin/dist/colorin.js"></script>
+<script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"></script>
+<script type="text/javascript" src="./debug.js"></script>
+
+<body>
+    <div class="container" id="chart"></div>
+    <script>
+
+        const colors = [
+            [0, '#FFF7ED'],
+            [5, '#FFF7ED'],
+            [10, '#FDD59F'],
+            [15, '#FC8E58'],
+            [20, '#EF6546'],
+            [25, '#D82C19']
+        ];
+        const ci = new colorin.ColorIn(colors);
+
+        const chart = echarts.init(document.querySelector('#chart'));
+        const options = {
+            xAxis: {
+                type: 'category',
+                data: new Array(25).fill(0, 0).map((d, index) => {
+                    return index;
+                })
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: new Array(25).fill(0, 0).map((d, index) => {
+                        const [r, g, b] = ci.getColor(index);
+                        return {
+                            itemStyle: {
+                                color: `rgb(${r},${g},${b})`,
+                            },
+                            value: index
+                        }
+                    }),
+                    type: 'bar',
+                    showBackground: true,
+                    backgroundStyle: {
+                        // color: 'rgba(180, 180, 180, 0.2)'
+                    }
+                }
+            ]
+        };
+        chart.setOption(options);
+
+    </script>
+</body>
+
+</html>

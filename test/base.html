@@ -16,10 +16,11 @@
         width: 100%;
         height: 50%;
         display: flex;
+        background-color: black;
     }
 
     .colorpanel {
-        width: 20px;
+        width: 30px;
         height: 20px;
         margin-right: 20px;
         margin-left: 10px;
@@ -27,6 +28,7 @@
 </style>
 <script src="https://unpkg.com/colorin/dist/colorin.js"></script>
 <script type="text/javascript" src="./debug.js"></script>
+
 <body>
     <div class="container"></div>
     <script>
@@ -41,10 +43,11 @@
         ];
         const ci = new colorin.ColorIn(colors);
 
-        for (let i = -5; i < 30; i++) {
+        for (let i = -5; i < 26; i++) {
             const [r, g, b, a] = ci.getColor(i);
             const div = document.createElement('div');
             div.className = 'colorpanel';
+            div.style.height = `${Math.max(2, i * 10)}px`;
             div.style.backgroundColor = `rgba(${r},${g},${b},${a})`;
             document.querySelector('.container').appendChild(div);
         }
