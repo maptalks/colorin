@@ -19,7 +19,9 @@ colors interpolate
 [zoom stops](https://maptalks.github.io/colorin/test/zoomstop.html)  
 [custom imagedata size](https://maptalks.github.io/colorin/test/customsize.html)  
 [covid-19 usa](https://maptalks.github.io/colorin/test/covid-19.html)  
-- maptalks.js already has this feature built-in
+[echarts-bar](https://maptalks.github.io/colorin/test/echarts-bar.html)  
+[echarts-calendar](https://maptalks.github.io/colorin/test/echarts-calendar.html)  
+maptalks.js already has this feature built-in
 [maptalks funtion-type demo](https://maptalks.org/examples/en/style/color-interpolate/#style_color-interpolate)
 
 ## Install
