@@ -4,6 +4,7 @@
   "description": "colors Interpolation",
   "main": "dist/colorin.js",
   "module": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "lint": "eslint ./*.js",
     "build": "npm run lint && cross-env NODE_ENV=dev  rollup -c",
