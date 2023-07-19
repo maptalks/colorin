@@ -19,9 +19,26 @@ type ColorArrayItem = [value: number, color: string];
 export class ColorIn {
   constructor(colors: ColorArrayItem[], options?: Options);
   /**
-   * 获取插值后的颜色数组
+   * get color by stop
    * @param stop
    * @returns 颜色数组 [R,G,B,A]
    */
   getColor(stop: number): [number, number, number, number];
+  /**
+   * get canvas image data
+   */
+  getImageData(): ImageData;
 }
+
+type CanvasInstanceLike = {
+  width: number;
+  height: number;
+  getContext(
+    contextType: "2d",
+    contextAttributes?: CanvasRenderingContext2DSettings
+  ): CanvasRenderingContext2D | any;
+};
+
+export function registerCanvas<T extends CanvasInstanceLike>(
+  canvasInstance: T
+): void;
